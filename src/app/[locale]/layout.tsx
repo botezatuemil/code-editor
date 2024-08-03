@@ -1,3 +1,5 @@
+import { ClerkProvider } from '@clerk/nextjs';
+import { dark } from '@clerk/themes';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
@@ -29,7 +31,7 @@ export default async function RootLayout({
       <body className={inter.className}>
         <LocalizedStringProvider locale={locale} />
         <NextIntlClientProvider locale={locale} messages={messages}>
-          {children}
+          <ClerkProvider appearance={{ baseTheme: dark }}>{children}</ClerkProvider>
         </NextIntlClientProvider>
       </body>
     </html>
