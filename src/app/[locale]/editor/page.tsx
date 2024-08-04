@@ -11,7 +11,7 @@ const Page = async () => {
   if (!user) return null;
   return (
     <main>
-      <div>{t('helloWorld')}</div>
+      <p>{t('helloWorld')}</p>
     </main>
   );
 };

@@ -1,10 +1,14 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
+import { Theme } from '@radix-ui/themes';
+import '@radix-ui/themes/styles.css';
 import type { Metadata } from 'next';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { Inter } from 'next/font/google';
-import { LocalizedStringProvider } from 'react-aria-components/i18n';
+
+import '../globals.css';
+import StyledComponentsRegistry from '../lib/registry';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -28,11 +32,18 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="shortcut icon" href="/favicon.svg" />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, user-scalable=no" />
+      </head>
       <body className={inter.className}>
-        <LocalizedStringProvider locale={locale} />
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <ClerkProvider appearance={{ baseTheme: dark }}>{children}</ClerkProvider>
-        </NextIntlClientProvider>
+        <Theme>
+          <StyledComponentsRegistry>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <ClerkProvider appearance={{ baseTheme: dark }}>{children}</ClerkProvider>
+            </NextIntlClientProvider>
+          </StyledComponentsRegistry>
+        </Theme>
       </body>
     </html>
   );

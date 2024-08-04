@@ -3,7 +3,7 @@ import localesPlugin from '@react-aria/optimize-locales-plugin';
 import createNextIntlPlugin from 'next-intl/plugin';
 
 const withNextIntl = createNextIntlPlugin();
-
+import {glob} from 'glob';
 const nextConfig = {
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -12,6 +12,14 @@ const nextConfig = {
     }
     return config;
   },
+  compiler: {
+    styledComponents: true,
+  },
+  transpilePackages: [
+    '@adobe/react-spectrum',
+    '@react-spectrum/*',
+    '@spectrum-icons/*'
+  ].flatMap((spec) => glob.sync(`${spec}`, { cwd: 'node_modules/' }))
 };
 
 export default withNextIntl(nextConfig);
